@@ -21,7 +21,3 @@ app.listen(process.env.APP_PORT, () => {
   console.log(`Server on http://localhost:${process.env.APP_PORT}`);
 });
 app.use(authRoutes);
-// respond with "hello world" when a GET request is made to the homepage
-app.get('/', (req, res) => {
-  res.send('hello world')
-})
