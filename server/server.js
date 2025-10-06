@@ -1,8 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const swaggerUI = require("swagger-ui-express");
+const swaggerSpec = require("./swagger/swagger");
 require("dotenv").config();
 
 const authRoutes = require("./routes/Authentication_routes");
+const contactRoutes = require("./routes/Contacts_routes");
 const app = express();
 
 //middleware
@@ -20,4 +23,7 @@ mongoose.connect(process.env.MONGODB_URI)
 app.listen(process.env.APP_PORT, () => {
   console.log(`Server on http://localhost:${process.env.APP_PORT}`);
 });
+
 app.use(authRoutes);
+app.use(contactRoutes);
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
