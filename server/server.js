@@ -27,3 +27,8 @@ app.listen(process.env.APP_PORT, () => {
 app.use(authRoutes);
 app.use(contactRoutes);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+
+/* i used next code to delete opld indexes
+const Contact = require('./models/Contact');
+Contact.collection.dropIndexes();
+*/

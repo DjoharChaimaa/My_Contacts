@@ -21,6 +21,9 @@
  *         phone:
  *           type: string
  *           description: Numéro de téléphone (10 à 20 caractères)
+ *         userId:
+ *           type: string
+ *           description: le user qui a créé ce contact
  */
 const mongoose = require("mongoose");
 
@@ -43,9 +46,13 @@ const contactSchema = new mongoose.Schema({
                 return v.length >= 10 && v.length <= 20;
             },
             message: props => `${props.value} n'est pas un numéro valide (10 à 20 caractères)`
-        },
-        unique: true
+        }
+    },
+    userId: {
+        type: String,
+        required: [true]
     }
 }, { timestamps: true });
 
+contactSchema.index({ phone: 1, userId: 1 }, { unique: true });
 module.exports = mongoose.model("Contact", contactSchema);

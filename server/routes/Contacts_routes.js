@@ -19,6 +19,8 @@ const {scopeContacts, scopeContact, createContact, updateContact, deleteContact}
  *     responses:
  *       200:
  *         description: Liste des contacts
+ *       401:
+ *         description: Non autorisé (JWT manquant ou invalide)
  */
 router.get("/contacts", scopeContacts);
 
@@ -44,18 +46,20 @@ router.get("/contacts", scopeContacts);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Contact'
+ *       400:
+ *         description: Requête invalide (ID mal formé)
  *       401:
  *         description: Non autorisé (JWT manquant ou invalide)
  *       404:
- *         description: Contact non trouvé
+ *         description: error
  */
 router.get("/contacts/:id", scopeContact);
 
 /**
  * @swagger
- * /contacts:
+ * /contacts/create:
  *   post:
- *     summary: Créer un contact
+ *     summary: Créer un nouveau contact
  *     tags: [Contacts]
  *     security:
  *       - bearerAuth: []
@@ -67,15 +71,23 @@ router.get("/contacts/:id", scopeContact);
  *             $ref: '#/components/schemas/Contact'
  *     responses:
  *       201:
- *         description: Contact créé
+ *         description: Contact créé avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Contact'
+ *       400:
+ *         description: Données invalides
+ *       401:
+ *         description: Non autorisé (JWT manquant ou invalide)
  */
 router.post("/contacts/create", createContact);
 
 /**
  * @swagger
- * /contacts/{id}:
+ * /contacts/update/{id}:
  *   patch:
- *     summary: Mettre à jour un contact
+ *     summary: Mettre à jour un contact existant
  *     tags: [Contacts]
  *     security:
  *       - bearerAuth: []
@@ -83,9 +95,9 @@ router.post("/contacts/create", createContact);
  *       - name: id
  *         in: path
  *         required: true
+ *         description: ID du contact à mettre à jour
  *         schema:
  *           type: string
- *         description: ID du contact
  *     requestBody:
  *       required: true
  *       content:
@@ -94,13 +106,23 @@ router.post("/contacts/create", createContact);
  *             $ref: '#/components/schemas/Contact'
  *     responses:
  *       200:
- *         description: Contact mis à jour
+ *         description: Contact mis à jour avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Contact'
+ *       400:
+ *         description: Données invalides ou requête incorrecte
+ *       401:
+ *         description: Non autorisé (JWT manquant ou invalide)
+ *       404:
+ *         description: Contact non trouvé
  */
 router.patch("/contacts/update/:id", updateContact);
 
 /**
  * @swagger
- * /contacts/{id}:
+ * /contacts/delete/{id}:
  *   delete:
  *     summary: Supprimer un contact
  *     tags: [Contacts]

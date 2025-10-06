@@ -1,8 +1,13 @@
 const Contact = require("../models/Contact");
+const jwt = require("jsonwebtoken");
 
 const scopeContacts = async (req, res, next) => {
     try {
-        const contacts = await Contact.find();
+        const authHeader = req.headers.authorization;
+        const token = authHeader.split(" ")[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);  
+        var user = decoded.id 
+        const contacts = await Contact.find({userId : user});
         res.json(contacts);
     } catch (err) {
         next(err);
@@ -20,6 +25,11 @@ const scopeContact = async (req, res, next) => {
 
 const createContact = async (req, res, next) => {
     try {
+        const authHeader = req.headers.authorization;
+        const token = authHeader.split(" ")[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);  
+        var user = decoded.id 
+        req.body.userId = user
         const contact = new Contact(req.body);
         await contact.save();
         res.status(201).json(contact);
