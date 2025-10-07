@@ -2,11 +2,17 @@ const express = require("express");
 const mongoose = require("mongoose");
 const swaggerUI = require("swagger-ui-express");
 const swaggerSpec = require("./swagger/swagger");
+const cors = require("cors");
 require("dotenv").config();
 
 const authRoutes = require("./routes/Authentication_routes");
 const contactRoutes = require("./routes/Contacts_routes");
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:8082',
+  credentials: true,
+}));
 
 //middleware
 app.use(express.json());
