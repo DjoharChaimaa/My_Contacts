@@ -2,30 +2,52 @@ import { useEffect, useState } from "react";
 import { API_URL } from "../App";
 import ContactForm from "../Components/ContactForm";
 import ContactItem from "../Components/ContactItem";
+import { handleApiError, showErrorAlert } from "../utils/errorHandler";
 
 export default function Contacts() {
   const [contacts, setContacts] = useState([]);
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const fetchContacts = async () => {
-    const token = localStorage.getItem("token");
-    const res = await fetch(`${API_URL}/contacts`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (res.ok) {
-      const data = await res.json();
-      setContacts(data);
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_URL}/contacts`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      
+      const data = await handleApiError(res, "Erreur lors du chargement des contacts");
+      setContacts(data.data || data);
+      
+    } catch (error) {
+      showErrorAlert(error.message);
+      // Si erreur d'authentification, rediriger vers login
+      if (error.message.includes("Session expirée") || error.message.includes("Token")) {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
   const deleteContact = async (id) => {
-    const token = localStorage.getItem("token");
-    await fetch(`${API_URL}/contacts/delete/${id}`, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    fetchContacts();
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_URL}/contacts/delete/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      
+      await handleApiError(res, "Erreur lors de la suppression");
+      fetchContacts(); // Recharger la liste
+      
+    } catch (error) {
+      showErrorAlert(error.message);
+      throw error; // Propager l'erreur pour ContactItem
+    }
   };
 
   useEffect(() => {
@@ -39,56 +61,62 @@ export default function Contacts() {
       c.phone.includes(search)
   );
 
-
   return (
-  <div className="fade-in">
-    <div className="contacts-header">
-      <div className="search-container">
-        <input 
-          placeholder="🔍 Rechercher par numéro, nom ou prénom..." 
-          value={search} 
-          onChange={(e) => setSearch(e.target.value)} 
-        />
+    <div>
+      <div className="contacts-header">
+        <div className="search-container">
+          <input 
+            placeholder="Rechercher par numéro, nom ou prénom" 
+            value={search} 
+            onChange={(e) => setSearch(e.target.value)} 
+          />
+        </div>
+        <div className="actions-container">
+          <button 
+            onClick={() => setShowForm(!showForm)} 
+            className={showForm ? "secondary" : "primary"}
+          >
+            {showForm ? "✖ Fermer" : "➕ Ajouter un contact"}
+          </button>
+        </div>
       </div>
-      <div className="actions-container">
-        <button 
-          className={showForm ? "secondary" : "primary"}
-          onClick={() => setShowForm(!showForm)}
-        >
-          {showForm ? "✖ Fermer" : " Ajouter un contact"}
-        </button>
-      </div>
+
+      {showForm && <ContactForm onAdded={fetchContacts} />}
+
+      {loading ? (
+        <div className="loading">
+          <div className="spinner"></div>
+        </div>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Prénom</th>
+              <th>Nom</th>
+              <th>Numéro de téléphone</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.length === 0 ? (
+              <tr>
+                <td colSpan="4" style={{ textAlign: "center" }}>
+                  {contacts.length === 0 ? "Aucun contact trouvé" : "Aucun résultat pour votre recherche"}
+                </td>
+              </tr>
+            ) : (
+              filtered.map((c) => (
+                <ContactItem
+                  key={c._id}
+                  contact={c}
+                  onUpdated={fetchContacts}
+                  onDeleted={deleteContact}
+                />
+              ))
+            )}
+          </tbody>
+        </table>
+      )}
     </div>
-
-    {showForm && <ContactForm onAdded={fetchContacts} />}
-
-    {filtered.length === 0 ? (
-      <div className="empty-state">
-        <div>📋</div>
-        <p>Aucun contact trouvé</p>
-      </div>
-    ) : (
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
-        <thead>
-          <tr>
-            <th>Prémon</th>
-            <th>Nom</th>
-            <th>Numéro de téléphone</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filtered.map((c) => (
-            <ContactItem
-              key={c._id}
-              contact={c}
-              onUpdated={fetchContacts}
-              onDeleted={deleteContact}
-            />
-          ))}
-        </tbody>
-      </table>
-    )}
-  </div>
-);
+  );
 }

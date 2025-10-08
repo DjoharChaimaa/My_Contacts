@@ -5,7 +5,11 @@ import Register from "./pages/Register";
 import Contacts from "./pages/Contacts";
 import Header from "./Components/Header";
 
-export const API_URL = "http://localhost:3001";
+export const config = {
+  API_URL: import.meta.env.VITE_API_URL
+};
+console.log('API URL configurée:', config.API_URL);
+export const API_URL = config.API_URL;
 
 export default function App() {
   const isAuthenticated = !!localStorage.getItem("token");
@@ -13,15 +17,12 @@ export default function App() {
   return (
     <div className="app-container">
       <Router>
-        <Header
-          title="MyContacts"
-          showAdd={true}
-        />
+        <Header title="MyContacts" />
         <main className="page-container">
           <Routes>
-            <Route path="/" element={isAuthenticated ? <Navigate to="/contacts" /> : <Login />} />
+            <Route path="/" element={<Navigate to={isAuthenticated ? "/contacts" : "/login"} />} />
             <Route path="/login" element={isAuthenticated ? <Navigate to="/contacts" /> : <Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register" element={isAuthenticated ? <Navigate to="/contacts" /> : <Register />} />
             <Route path="/contacts" element={isAuthenticated ? <Contacts /> : <Navigate to="/login" />} />
           </Routes>
         </main>

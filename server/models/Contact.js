@@ -45,7 +45,7 @@ const contactSchema = new mongoose.Schema({
             validator: function(v) {
                 return v.length >= 10 && v.length <= 20;
             },
-            message: props => `${props.value} n'est pas un numéro valide (10 à 20 caractères)`
+            message: props => `Le numéro de téléphone n'est pas valide (10 à 20 caractères)`
         }
     },
     userId: {
