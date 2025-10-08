@@ -1,125 +1,98 @@
-📱 MyContacts - Application de Gestion de Contacts
+MyContacts - Application de Gestion de Contacts
 Une application full-stack moderne pour gérer vos contacts personnels avec authentification sécurisée.
 
-🚀 Fonctionnalités
---> 🔐 Authentification - Inscription et connexion sécurisées
+Fonctionnalités
 
---> 👥 Gestion des contacts - CRUD complet (Create, Read, Update, Delete)
+-> Authentification : Inscription et connexion sécurisées
+-> Gestion des contacts : CRUD complet (Create, Read, Update, Delete)
+-> Recherche : Recherche rapide par nom, prénom ou téléphone
+-> Interface moderne : Design responsive et intuitive
+-> Sécurité : JWT et validation des données
+-> Documentation API : Swagger intégré
 
---> 🔍 Recherche - Recherche rapide par nom, prénom ou téléphone
+Technologies Utilisées
 
---> 🎨 Interface moderne - Design responsive et intuitif
+Backend :
+-> Node.js : Runtime JavaScript
+-> Express.js : Framework web
+-> MongoDB : Base de données NoSQL
+-> Mongoose : ODM pour MongoDB
+-> JWT : Authentification
+-> bcrypt : Hashage des mots de passe
+-> Swagger : Documentation API
+-> CORS : Gestion des origines cross-domain
 
---> 🛡️ Sécurité - JWT et validation des données
+Frontend :
+-> React : Librairie UI
+-> React Router : Navigation
+-> CSS3 : Styles modernes
 
---> 📚 Documentation API - Swagger intégré
+Prérequis
 
-----------------------------------------------------------------------------------------------------------------------
+-> Node.js
+-> MongoDB (local ou Atlas)
+-> npm ou yarn
 
-🛠️ Technologies Utilisées
+Setup Rapide
 
-Backend
+Backend :
+-> cd server
+-> npm install
 
---> Node.js - Runtime JavaScript
+Créer un fichier .env avec :
+MONGODB_URI=<mongodb_ri>
+APP_PORT=3001
+JWT_SECRET=secret
+NODE_ENV=development
+CLIENT_URL=http://host:8082
 
---> Express.js - Framework web
+-> node server.js
 
---> MongoDB - Base de données NoSQL
+Frontend :
+-> cd client
+-> npm install
 
---> Mongoose - ODM pour MongoDB
+Créer un fichier .env avec :
+VITE_API_URL=http://host:3001
 
---> JWT - Authentification
+-> npm run dev
 
---> bcrypt - Hashage des mots de passe
+URLs de l'Application
 
---> Swagger - Documentation API
+-> Application : http://host:8082
 
---> CORS - Gestion des origines cross-domain
------------------------------------------------------------
-Frontend
+-> Backend API : http://host:3001
 
---> React - Librairie UI
+-> Documentation API : http://host:3001/api-docs
 
---> React Router - Navigation
+API Endpoints
 
---> SS3 - Styles modernes
------------------------------------------------------------
-📋 Prérequis
+Authentication :
+Méthode | Endpoint | Description | Body
+POST | /auth/register | Créer un compte | {firstName, lastName, email, password, phone}
+POST | /auth/login | Connexion | {email, password}
 
---> Node.js
+Contacts (Authentification requise) :
+Méthode | Endpoint | Description | Headers
+GET | /contacts | Liste des contacts | Authorization: Bearer <token>
+GET | /contacts/:id | Détail d'un contact | Authorization: Bearer <token>
+POST | /contacts/create | Créer un contact | Authorization: Bearer <token>
+PATCH | /contacts/update/:id | Modifier un contact | Authorization: Bearer <token>
+DELETE | /contacts/delete/:id | Supprimer un contact | Authorization: Bearer <token>
 
---> MongoDB (local ou Atlas)
+Comptes de Test
 
---> npm ou yarn
-
-----------------------------------------------------------------------------------------------------------------------
-🚀 Setup Rapide
-Backend:
--------
-bash
-cd server
-npm install
-
-# Créer .env avec:
-# MONGODB_URI=<mongodb_ri>
-# APP_PORT=3001
-# JWT_SECRET=secret
-# NODE_ENV=development
-# CLIENT_URL=http://host:8082
-
-bash
-node server.js
-
-Frontend:
---------
-
-bash
-cd client
-npm install
-
-# Créer .env avec:
-# VITE_API_URL=http://host:3001
-
-bash
-npm run dev
-----------------------------------------------------------------------------------------------------------------------
-🌐 URLs de l'Application
-Application : http://host:8082
-
-Backend API : http://host:3001
-
-Documentation API : http://host:3001/api-docs
-
-----------------------------------------------------------------------------------------------------------------------
-🔌 API Endpoints
-
-Authentication
---------------
-Méthode	Endpoint	Description	Body
-POST	/auth/register	Créer un compte	{firstName, lastName, email, password, phone}
-POST	/auth/login	Connexion	{email, password}
-
-Contacts (Authentification requise)
---------
-Méthode	Endpoint	Description	Headers
-GET	/contacts	Liste des contacts	Authorization: Bearer <token>
-GET	/contacts/:id	Détail d'un contact	Authorization: Bearer <token>
-POST	/contacts/create	Créer un contact	Authorization: Bearer <token>
-PATCH	/contacts/update/:id	Modifier un contact	Authorization: Bearer <token>
-DELETE	/contacts/delete/:id	Supprimer un contact	Authorization: Bearer <token>
-----------------------------------------------------------------------------------------------------------------------
-👤 Comptes de Test
-Compte de démonstration
-json
+Compte de démonstration :
 {
-  "email": "demo@mycontacts.com",
-  "password": "demo123"
+"email": "demo@mycontacts.com
+",
+"password": "demo123"
 }
 
-Créer votre propre compte
-Allez sur http://host:8082/register
+Créer votre propre compte :
+-> Allez sur http://host:8082/register
 
-Remplissez le formulaire :
+-> Remplissez le formulaire :
 
 Prénom : Votre prénom
 
@@ -130,24 +103,18 @@ Email : Une adresse email valide
 Téléphone : 10-20 caractères
 
 Mot de passe : 6 caractères minimum
-----------------------------------------------------------------------------------------------------------------------
-🔒 Sécurité
-Mots de passe : Hashés avec bcrypt
 
-Authentification : JWT avec expiration
+Sécurité
 
-Validation : Validation des données côté client et serveur
+-> Mots de passe : Hashés avec bcrypt
+-> Authentification : JWT avec expiration
+-> Validation : Données validées côté client et serveur
+-> CORS : Configuré pour l'origine du frontend
 
-CORS : Configuré pour l'origine du frontend
+Utilisation
 
-📱 Utilisation
-Inscription/Connexion : Créez un compte ou connectez-vous
-
-Ajouter un contact : Cliquez sur "Ajouter un contact"
-
-Rechercher : Utilisez la barre de recherche
-
-Modifier : Cliquez sur "Modifier" sur un contact
-
-Supprimer : Cliquez sur "Supprimer" (avec confirmation)
-----------------------------------------------------------------------------------------------------------------------
+-> Inscription/Connexion : Créez un compte ou connectez-vous
+-> Ajouter un contact : Cliquez sur "Ajouter un contact"
+-> Rechercher : Utilisez la barre de recherche
+-> Modifier : Cliquez sur "Modifier" sur un contact
+-> Supprimer : Cliquez sur "Supprimer" (avec confirmation)
