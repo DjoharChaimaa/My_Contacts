@@ -5,6 +5,13 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 8082,
-    host: true 
+    host: true
+  },
+  build: {
+    outDir: 'dist'
+  },
+  base: './',
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom']
   }
 })
