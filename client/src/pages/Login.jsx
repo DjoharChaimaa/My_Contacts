@@ -27,7 +27,7 @@ export default function Login() {
       const data = await handleApiError(res, "Erreur de connexion");
       
       localStorage.setItem("token", data.token);
-      location.reload("/contacts");
+      window.location.href = "/contacts";
       
     } catch (error) {
       showErrorAlert(error.message);

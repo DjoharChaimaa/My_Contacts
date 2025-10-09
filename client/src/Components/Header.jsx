@@ -5,7 +5,7 @@ export default function Header({ title, showAdd = false, onAdd, onLogout }) {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    location.reload();
+    window.location.href = "/";
     if (onLogout) onLogout();
   };
 

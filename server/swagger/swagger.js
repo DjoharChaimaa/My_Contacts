@@ -1,4 +1,5 @@
 const swaggerJsdoc = require("swagger-jsdoc");
+require("dotenv").config();
 const options = {
   definition: {
     openapi: "3.0.0",
@@ -8,7 +9,7 @@ const options = {
       description: "API CRUD des contacts protégée par JWT",
     },
     servers: [
-      { url: "http://localhost:" + process.env.APP_PORT} 
+      { url: process.env.BACKEND_URL} 
     ],
     components: {
       securitySchemes: {
