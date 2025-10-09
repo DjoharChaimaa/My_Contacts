@@ -60,7 +60,7 @@ MONGODB_URI=<mongodb_ri>
 APP_PORT=3001
 JWT_SECRET=secret
 NODE_ENV=development
-CLIENT_URL=http://host:8082
+CLIENT_URL=https://mycontacts-frontend-dafb.onrender.com
 ```
 
 ```bash
@@ -77,7 +77,7 @@ npm install
 Créer un fichier `.env` avec :
 
 ```env
-VITE_API_URL=http://host:3001
+VITE_API_URL=https://mycontacts-backend-mzqm.onrender.com
 ```
 
 ```bash
@@ -88,9 +88,9 @@ npm run dev
 
 ## URLs de l'Application
 
-- **Application** : [http://host:8082](http://host:8082)
-- **Backend API** : [http://host:3001](http://host:3001)
-- **Documentation API** : [http://host:3001/api-docs](http://host:3001/api-docs)
+- **Application** : https://mycontacts-frontend-dafb.onrender.com
+- **Backend API** : https://mycontacts-backend-mzqm.onrender.com
+- **Documentation API** : https://mycontacts-backend-mzqm.onrender.com/api-docs/
 
 ---
 
@@ -128,7 +128,7 @@ npm run dev
 
 **Créer votre propre compte :**
 
-- Allez sur [http://host:8082/register](http://host:8082/register)
+- Allez sur https://mycontacts-frontend-dafb.onrender.com/register
 - Remplissez le formulaire :
   - Prénom : Votre prénom
   - Nom : Votre nom
