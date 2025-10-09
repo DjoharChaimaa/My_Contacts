@@ -24,6 +24,8 @@ export default function App() {
             <Route path="/login" element={isAuthenticated ? <Navigate to="/contacts" /> : <Login />} />
             <Route path="/register" element={isAuthenticated ? <Navigate to="/contacts" /> : <Register />} />
             <Route path="/contacts" element={isAuthenticated ? <Contacts /> : <Navigate to="/login" />} />
+            {/* Route fallback pour toutes les autres URLs */}
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>
       </Router>

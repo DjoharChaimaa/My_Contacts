@@ -8,7 +8,13 @@ export default defineConfig({
     host: true
   },
   build: {
-    outDir: 'dist'
+    outDir: 'dist',
+    // Important pour le routing
+    rollupOptions: {
+      input: {
+        main: './index.html'
+      }
+    }
   },
   base: './'
 })

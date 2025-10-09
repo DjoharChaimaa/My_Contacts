@@ -1,0 +1,11 @@
+{
+  "root": "dist/",
+  "clean_urls": true,
+  "routes": {
+    "/*": {
+      "Content-Type": "text/html",
+      "status": 200,
+      "src": "/index.html"
+    }
+  }
+}
